@@ -1,0 +1,25 @@
+
+* {
+    box-sizing: inherit;
+}
+
+html {
+    line-height: 16px;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+.embrace {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.embrace__full-width {
+    width: 100%;
+}
+
+.embrace__row {
+    display: flex;
+    flex-wrap: wrap;
+}

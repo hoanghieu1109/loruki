@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="main">
+        <input type="text" v-on:input="changeValue">
+        <p>{{noidung}}</p>
+        <a v-bind:href="link">my fb</a>
+        <p v-once> {{noidung }} - {{noidung }}</p>
+    </div>
+    <div id="app-2">
+        <span v-bind:title="message">
+            5 nawm sau
+        </span>
+    </div>
+    <div id="app-3">
+        <span v-if="seen">Now you see me</span>
+    </div>
+    <div id="app-4">
+        <ol>
+            <li v-for="todo in todos">
+                {{todo.text}}
+            </li>
+        </ol>
+    </div>
+    <div id="app-5">
+        <p>{{ message }}</p>
+        <button v-on:click="reverseMessage">Reverse Message</button>
+    </div>
+
+    <div id="app-6">
+        <p>{{message}}</p>
+        <input v-model="message" type="text">
+    </div>
+
+    <ol>
+        <todo-item ></todo-item>
+    </ol>
+
+    <div id="app-7">
+        <ol>
+            Bây giờ chúng ta cung cấp cho
+        
+        <todo-item v-for="item in grocerryList"
+                    v-bind:todo="item"
+                    v-bind:key="item.id"> 
+
+        </todo-item>
+        </ol>
+    </div>
+
+    <div id="app-8">
+        <p>{{foo}}</p>
+        <button v-on:click="foo = 'baz'">Change it</button>
+    </div>
+
+    <div id="demo">{{ fullName }}</div>
+
+    <div id="watch-example">
+        <p>
+          Ask a yes/no question:
+          <input v-model="question">
+        </p>
+        <p>{{ answer }}</p>
+      </div>
+
+      <div v-bind:class="{ active: isActive }"></div>
+
+      <div v-if="Math.random() > 0.5">
+        Now you see me
+      </div>
+      <div v-else>
+        Now you don't
+      </div>
+
+      <div  id="app-10">
+      <li v-for="n in evenNumbers">{{ number }}</li>
+    </div>
+</body>
+</html>
+
+<script>
+    new Vue ({
+        el: '#app-10',
+        data: {
+            numbers: [ 1,2,3,4,5 ]
+        },
+        computerd: {
+            evenNumbers: function() {
+                return this.numbers.filter(function(number) {
+                    return number % 2 === 0
+                })
+            }
+        }
+    })
+</script>
+
+<script>
+    var watchExampleVM = new Vue({
+      el: '#watch-example',
+      data: {
+        question: '',
+        answer: 'I cannot give you an answer until you ask a question!'
+      },
+      watch: {
+        // whenever question changes, this function will run
+        question: function (newQuestion, oldQuestion) {
+          this.answer = 'Waiting for you to stop typing...'
+          this.debouncedGetAnswer()
+        }
+      },
+      created: function () {
+        // _.debounce is a function provided by lodash to limit how
+        // often a particularly expensive operation can be run.
+        // In this case, we want to limit how often we access
+        // yesno.wtf/api, waiting until the user has completely
+        // finished typing before making the ajax request. To learn
+        // more about the _.debounce function (and its cousin
+        // _.throttle), visit: https://lodash.com/docs#debounce
+        this.debouncedGetAnswer = _.debounce(this.getAnswer, 500)
+      },
+      methods: {
+        getAnswer: function () {
+          if (this.question.indexOf('?') === -1) {
+            this.answer = 'Questions usually contain a question mark. ;-)'
+            return
+          }
+          this.answer = 'Thinking...'
+          var vm = this
+          axios.get('https://yesno.wtf/api')
+            .then(function (response) {
+              vm.answer = _.capitalize(response.data.answer)
+            })
+            .catch(function (error) {
+              vm.answer = 'Error! Could not reach the API. ' + error
+            })
+        }
+      }
+    })
+    </script>
+<script>
+    var vm = new Vue({
+  el: '#demo',
+  data: {
+    firstName: 'Foo',
+    lastName: 'Bar',
+    fullName: 'Foo Bar'
+  },
+  watch: {
+    firstName: function (val) {
+      this.fullName = val + ' ' + this.lastName
+    },
+    lastName: function (val) {
+      this.fullName = this.firstName + ' ' + val
+    }
+  }
+})
+
+	new Vue ({
+    	el: '#main',
+    	data: {
+        	noidung: 'Hello',
+            link: 'http://www.facebook.com/hoangquanghieu09',
+    },
+	methods: {
+		link: function() {
+			this.noidung ='noi dung vua cap nhat';
+            return this.noidung;
+		}
+	}
+})
+    var app2 = new Vue ({
+        el: '#app-2',
+        data: {
+            message: 'thong bao' + new Date().toLocaleString(),
+        }
+    })
+    var app3 = new Vue ({
+        el: '#app-3',
+        data: {
+            seen: false
+        }
+    })
+    var app4 = new Vue({
+        el: '#app-4',
+        data: {
+            todos: [
+                {text: 'apple'},
+                {text: 'orange'}
+            ]
+        }
+    })
+    app4.todos.push({text: 'strawberry'})
+
+    var app5 = new Vue({
+        el: '#app-5',
+        data: {
+                message: 'Hello Vue.js!'
+        },
+        methods: {
+            reverseMessage: function () {
+            this.message = this.message.split('').reverse().join('')
+            }
+        }
+    })
+
+    var app6 = new Vue ({
+        el: '#app-6',
+        data: {
+            message: 'Hello Vue',
+        }
+    })
+
+    // tạo một thành phần mới
+   
+
+    Vue.component('todo-item', {
+        props: ['todo'],
+        template: '<li>{{todo.text}}</li>'
+    })
+
+    var app7 = new Vue ({
+        el: '#app-7',
+        data: {
+            grocerryList: [
+                {id: 0, text: 'this'},
+                {id: 1, text: 'those'},
+                {id: 2, text: 'these'}
+            ]
+        }
+    })
+
+    var obj = {
+        foo:  'bar',
+    }
+
+    Object.freeze(obj)
+
+    new Vue ({
+        el: '#app-8',
+        data: obj
+    })
+
+</script>

@@ -1,0 +1,31 @@
+.container{
+	width: 100%;
+	height: auto;
+}
+.menu{
+	width: 100%;
+	height: 120px;	
+	background-color: rgb(255, 186, 0);
+	padding: 0;
+}
+.up{
+	width: 80%;
+	height: 70px;
+	margin: 0px auto;
+	padding-top: 10px;
+}
+.up ul{
+	list-style: none;
+}
+.up ul li a{
+	display: inline-block;
+	font-size: 20px;
+	font-weight: bold;
+	color: black;
+}
+.up ul li img{
+	vertical-align: middle;
+}
+.logo {
+	padding-right: 40px;
+}
